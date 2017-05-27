@@ -1,0 +1,37 @@
+#!/bin/sh
+# 
+# /etc/hamq.d/hostapd_tracker
+# called from hostapd_cli which'll pass interface command and macaddress
+# 
+# publishes to hostapd_tracker/hostname/interface/macaddressofdevice
+# AP-STA-CONNECTED upon connect
+# AP-STA-DISCONNECTED upon disconnect
+#
+
+############################################################
+# should source config from somewhere central
+HOST=10.0.0.1
+PORT=1883
+USER="none"
+PASS="none"
+HOSTNAME=$(uname -n)
+############################################################
+
+ID=hostapd_tracker
+#logger -t $0 "hostapd_tracker $1 $2 $3"
+
+IFNAME=$1
+CMD=$2
+MAC=$3
+##########################################3
+
+
+if [ "$CMD" = "AP-STA-CONNECTED" ]; then
+   mosquitto_pub -h $HOST -p $PORT -u $USER -P $PASS -I $ID -t "$ID/$HOSTNAME/$IFNAME/$MAC" -m $CMD
+fi
+
+if [ "$CMD" = "AP-STA-DISCONNECTED" ]; then
+   mosquitto_pub -h $HOST -p $PORT -u $USER -P $PASS -I $ID -t "$ID/$HOSTNAME/$IFNAME/$MAC" -m $CMD
+fi
+
+
