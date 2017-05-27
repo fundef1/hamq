@@ -1,0 +1,14 @@
+#!/bin/sh
+# silly wrapper script because procd doesn't 
+# seem to want to accept a pipe as command string
+#
+source /etc/hamq.d/hamq.conf
+
+###################################
+ID=hostapd_mapper
+
+   mosquitto_sub -h $HOST -p $PORT -u $USER -P $PASS -I $ID -v -t "hostapd_tracker/#" | /etc/hamq.d/hostapd_mapper
+
+
+
+
