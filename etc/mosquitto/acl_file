@@ -1,0 +1,5 @@
+#anonymous freeforall
+topic readwrite #
+#mqtt-spy freeforall
+user mqtt-spy
+topic readwrite #
